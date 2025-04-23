@@ -1,10 +1,15 @@
 {
-    "functions": {
-      "api/index.ts": {
-        "runtime": "vercel-node@canary"
-      }
-    },
+    "version": 2,
     "builds": [
-      { "src": "api/index.ts", "use": "@vercel/node" }
+      {
+        "src": "dist/api/index.js",
+        "use": "@vercel/node@latest"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "dist/api/index.js"
+      }
     ]
   }

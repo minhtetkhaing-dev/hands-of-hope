@@ -3,5 +3,8 @@
       "api/index.ts": {
         "runtime": "vercel-node@canary"
       }
-    }
+    },
+    "builds": [
+      { "src": "api/index.ts", "use": "@vercel/node" }
+    ]
   }

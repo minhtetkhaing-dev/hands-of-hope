@@ -13,12 +13,12 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
   try {
     const token = req.headers.authorization;
     if (!token) {
-      res.status(401).json({ error: 'No token provided' });
+      res.status(401).json({ error: 'Unauthorized' });
       return;
     }
 
     if (!token) {
-      res.status(401).json({ error: 'Invalid token format' });
+      res.status(401).json({ error: 'Unauthorized' });
       return;
     }
 
@@ -26,6 +26,6 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
+    res.status(401).json({ error: 'Unauthorized' });
   }
 };

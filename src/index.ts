@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import apiRoutes from './routes/index';
+import serverless from 'serverless-http';
 
 dotenv.config();
 
@@ -20,8 +21,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server running at http://localhost:${port}`);
+// });
 
-export default app;
+// export default app;
+export const handler = serverless(app);

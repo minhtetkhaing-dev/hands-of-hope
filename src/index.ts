@@ -1,26 +1,45 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import apiRoutes from './routes/index';
-import serverless from 'serverless-http';
+import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
-const app = express();
-const port = process.env.PORT || 8000;
+// Initialize Prisma Client
+const prisma = new PrismaClient();
 
+const app = express();
+
+// Middleware
 app.use(express.json());
+
+// Health check endpoint
+app.get('/health', (req: Request, res: Response) => {
+  res.json({ status: 'ok' });
+});
+
 app.use('/api', apiRoutes);
 
-app.get('/', (req, res) => {
+// Basic route
+app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Welcome to the Helping Hands API!' });
 });
 
-// Start server in dev mode
-// if (process.env.NODE_ENV !== 'production') {
-//   app.listen(port, () => {
-//     console.log(`Server running at http://localhost:${port}`);
-//   });
-// }
+// Error handling middleware
+app.use((err: any, req: Request, res: Response, next: any) => {
+  console.error(err.stack);
+  res.status(500).json({ 
+    error: 'Internal Server Error',
+    message: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
 
-export const handler = serverless(app);
+// Only start the server in development
+if (process.env.NODE_ENV !== 'production') {
+  const port = process.env.PORT || 8000;
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
+}
+
 export default app;

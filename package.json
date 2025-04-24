@@ -6,9 +6,7 @@
     "migrate": "npx prisma migrate dev",
     "start": "node dist/index.js",
     "build": "tsc && prisma generate",
-    "vercel-build": "npm run build",
-    "dev": "tsc --watch & nodemon dist/index.js",
-    "studio": "npx prisma studio"
+    "dev": "tsc --watch & nodemon dist/index.js"
   },
   "keywords": [],
   "author": "",

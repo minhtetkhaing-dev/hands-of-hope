@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
 import apiRoutes from './routes/index';
 import serverless from 'serverless-http';
@@ -11,19 +11,16 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 app.use('/api', apiRoutes);
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Helping Hands API!' });
 });
 
-// Error-handling middleware
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-});
+// Start server in dev mode
+// if (process.env.NODE_ENV !== 'production') {
+//   app.listen(port, () => {
+//     console.log(`Server running at http://localhost:${port}`);
+//   });
+// }
 
-// app.listen(port, () => {
-//   console.log(`Server running at http://localhost:${port}`);
-// });
-
-// export default app;
 export const handler = serverless(app);
+export default app;

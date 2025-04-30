@@ -5,7 +5,7 @@
   "scripts": {
     "migrate": "npx prisma migrate dev",
     "start": "node dist/index.js",
-    "build": "tsc && prisma generate",
+    "build": "tsc && prisma generate && cp -r src/public dist/",
     "vercel-build": "prisma generate && npm run build",
     "dev": "tsc --watch & nodemon dist/index.js"
   },
@@ -17,16 +17,19 @@
     "@prisma/client": "^6.6.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
     "glob": "^11.0.1",
     "jsonwebtoken": "^9.0.2",
     "lru-cache": "^11.1.0",
     "rimraf": "^6.0.1",
     "serverless-http": "^3.2.0",
+    "winston": "^3.17.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.14.1",

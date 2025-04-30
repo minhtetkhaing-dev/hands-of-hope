@@ -20,13 +20,4 @@ export class AuthController {
       res.status(401).json({ error: error.message });
     }
   }
-
-  async logout(req: Request, res: Response): Promise<void> {
-    try {
-      req.headers.authorization = undefined;
-      res.status(200).json({ message: 'Logout successful' });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
-    }
-  }
 }

@@ -2,6 +2,7 @@ import prisma from '../lib/prisma';
 import { User } from '@prisma/client';
 import { CreateUserInput, UpdateUserInput } from '../schemas/userSchema';
 import bcrypt from 'bcrypt';
+import { NotFoundError, ServerError } from '../utils/errors';
 
 export class UserService {
   // Create a user
@@ -35,7 +36,7 @@ export class UserService {
       where: { id },
     });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundError('User nout found.');
     }
     return user;
   }
@@ -64,18 +65,24 @@ export class UserService {
         },
       });
     } catch (error) {
-      throw new Error('Error updating user');
+      throw new ServerError('Error updating user');
     }
   }
 
   // Delete a user
   async deleteUser(id: number): Promise<void> {
     try {
+      const user = await prisma.user.findUnique({
+        where: { id },
+      });
+      if (!user) {
+        throw new NotFoundError('User not found');
+      }
       await prisma.user.delete({
         where: { id },
       });
     } catch (error) {
-      throw new Error('Error deleting user');
+      throw new ServerError('Error deleting user');
     }
   }
 }
